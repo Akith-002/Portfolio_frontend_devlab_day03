@@ -1,82 +1,118 @@
 <template>
-  <h1>{{ name }}</h1>
+  <div class="container">
+    <h1>{{ name }}</h1>
 
-  <div v-if="pending">Loading Projects...</div>
-  <div>
-    <h2>Projects</h2>
-    <ul>
-      <li v-for="project in projects" :key="project.name">
-        <h3>{{ project.name }}</h3>
-        <p>{{ project.description }}</p>
-      </li>
-    </ul>
-  </div>
+    <div v-if="pending" class="alert alert-info">Loading Projects...</div>
+    <div>
+      <h2>Projects</h2>
+      <ul class="list-group">
+        <li
+          v-for="project in projects"
+          :key="project.name"
+          class="list-group-item"
+        >
+          <h3>{{ project.name }}</h3>
+          <p>{{ project.description }}</p>
+        </li>
+      </ul>
+    </div>
 
-  <!-- form to create new project -->
-  <div>
-    <h2>Create Project</h2>
-    <form @submit.prevent="createProject">
-      <div>
-        <label for="name">Project Name : </label>
-        <input type="text" v-model="newProject.name" id="name" required />
-      </div>
-      <div>
-        <label for="description">Project Description : </label>
-        <textarea
-          name="description"
-          v-model="newProject.description"
-          id="description"
-        ></textarea>
-      </div>
-      <button type="submit">Create Project</button>
-    </form>
-  </div>
+    <!-- form to create new project -->
+    <div class="my-4">
+      <h2>Create Project</h2>
+      <form @submit.prevent="createProject" class="form-group">
+        <div class="mb-3">
+          <label for="name" class="form-label">Project Name:</label>
+          <input
+            type="text"
+            v-model="newProject.name"
+            id="name"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label"
+            >Project Description:</label
+          >
+          <textarea
+            name="description"
+            v-model="newProject.description"
+            id="description"
+            class="form-control"
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Project</button>
+      </form>
+    </div>
 
-  <!-- form to update project by id -->
-  <div>
-    <h2>Update Project</h2>
-    <form @submit.prevent="updateProject">
-      <div>
-        <label for="id">Project ID : </label>
-        <input type="text" v-model="update.id" id="id" required />
-      </div>
-      <div>
-        <label for="name">Project Name : </label>
-        <input type="text" v-model="update.name" id="name" required />
-      </div>
-      <div>
-        <label for="description">Project Description : </label>
-        <textarea
-          name="description"
-          v-model="update.description"
-          id="description"
-        ></textarea>
-      </div>
-      <button type="submit">Update Project</button>
-    </form>
-  </div>
+    <!-- form to update project by id -->
+    <div class="my-4">
+      <h2>Update Project</h2>
+      <form @submit.prevent="updateProject" class="form-group">
+        <div class="mb-3">
+          <label for="name" class="form-label">Project name:</label>
+          <!-- select the project using a dropdown -->
+          <select v-model="update.id" class="form-select" required>
+            <option value="">Select Project</option>
+            <option v-for="project in projects" :value="project._id">
+              {{ project.name }}
+            </option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">Project Name:</label>
+          <input
+            type="text"
+            v-model="update.name"
+            id="name"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label"
+            >Project Description:</label
+          >
+          <textarea
+            name="description"
+            v-model="update.description"
+            id="description"
+            class="form-control"
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Project</button>
+      </form>
+    </div>
 
-  <!-- delete a form by id -->
-  <div>
-    <h2>Delete Project</h2>
-    <form @submit.prevent="deleteProject">
-      <div>
-        <label for="id">Project ID : </label>
-        <input type="text" v-model="deleteId" id="id" required />
-      </div>
-      <button type="submit">Delete Project</button>
-    </form>
-  </div>
+    <!-- delete a form by id -->
+    <div class="my-4">
+      <h2>Delete Project</h2>
+      <form @submit.prevent="deleteProject" class="form-group">
+        <div class="mb-3">
+          <label for="id" class="form-label">Project name:</label>
+          <!-- select the project using a dropdown -->
+          <select v-model="deleteId" id="id" class="form-select" required>
+            <option value="">Select Project</option>
+            <option v-for="project in projects" :value="project._id">
+              {{ project.name }}
+            </option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-danger">Delete Project</button>
+      </form>
+    </div>
 
-  <div v-if="pending1">Loading Blogs...</div>
-  <div>
-    <h2>Blogs</h2>
-    <ul>
-      <li v-for="blog in blogs">
-        <h3>{{ blog.title }}</h3>
-        <p>{{ blog.content }}</p>
-      </li>
-    </ul>
+    <div v-if="pending1" class="alert alert-info">Loading Blogs...</div>
+    <div class="my-4">
+      <h2>Blogs</h2>
+      <ul class="list-group">
+        <li v-for="blog in blogs" class="list-group-item">
+          <h3>{{ blog.title }}</h3>
+          <p>{{ blog.content }}</p>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -220,6 +256,8 @@ const deleteProject = async () => {
 </script>
 
 <style scoped>
+@import "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css";
+
 .hello {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 3rem;
